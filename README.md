@@ -1,3 +1,5 @@
+Introduction
+===
 
 Inventory
 ===
@@ -13,3 +15,14 @@ These can be be set in the gce.ini, in a secrets.py file, or in your environment
 
 In order to SSH into the instances, you will need to connect once with the
 gcloud tool in order to generate a key in $HOME/.ssh/google_compute_engine
+
+Executing a Playbook
+===
+
+Available Playbooks
+===
+name | description
+--- | ---
+provision | Creates two instances gcpdemo0 and gcpdemo1
+teardown | Deletes GCP demo instances
+nginx | Installs nginx on target servers and opens port 80
