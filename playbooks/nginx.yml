@@ -1,0 +1,16 @@
+---
+- hosts: all
+  become: yes
+  become_method: sudo
+
+  roles:
+    # https://galaxy.ansible.com/bennojoy/nginx/
+    - role: jdauphant.nginx
+
+  tasks:
+    - gce_net:
+        name: default
+        fwname: web
+        allowed: tcp:80
+      delegate_to: localhost
+      become: no
