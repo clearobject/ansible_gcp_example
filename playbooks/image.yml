@@ -1,0 +1,25 @@
+---
+- hosts: gcpdemo1
+  gather_facts: no
+
+  vars:
+    project_id: "{{ lookup('env', 'GCE_PROJECT') }}"
+    credentials_file: "{{ lookup('env', 'GCE_PEM_FILE_PATH') }}"
+    service_account_email: "{{ lookup('env', 'GCE_EMAIL') }}"
+
+  tasks:
+    - name: Create a new disk
+      gce_pd:
+        name: demo-disk
+        size_gb: 10
+        zone: us-central1-a
+      delegate_to: localhost
+
+    # Make sure the server is shutdown before we try to create and image
+    - name: Create an image from new disk
+      gce_img:
+        name: demo-image
+        source: demo-disk
+        zone: us-central1-a
+        state: present
+      delegate_to: localhost
