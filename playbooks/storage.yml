@@ -1,0 +1,43 @@
+---
+# This uploads an index page to a GC bucket and pulls it down for nginx to use
+# Requires environment variables to be set
+# GS_ACCESS_KEY_ID
+# GS_SECRET_ACCESS_KEY
+- hosts: gcpdemo0
+
+  vars:
+    project_id: "{{ lookup('env', 'GCE_PROJECT') }}"
+    storage_id: "{{ lookup('env', 'GS_ACCESS_KEY_ID') }}"
+    storage_key: "{{ lookup('env', 'GS_SECRET_ACCESS_KEY') }}"
+    bucket: ansibledemo
+
+  tasks:
+
+    - name: Create an empty bucket
+      gc_storage:
+        bucket: "{{ bucket }}"
+        mode: create
+        gs_access_key: "{{ storage_id }}"
+        gs_secret_key: "{{ storage_key }}"
+
+    # Upload from control machine
+    - name: Upload a new index page to Google Cloud Storage
+      gc_storage:
+        bucket: "{{ bucket }}"
+        object: demo-index.html
+        src: ../files/index.html
+        mode: put
+        permission: public-read
+        gs_access_key: "{{ storage_id }}"
+        gs_secret_key: "{{ storage_key }}"
+      delegate_to: localhost
+
+    # Retrieve on target
+    - name: Download some content
+      gc_storage:
+        bucket: "{{ bucket }}"
+        object: demo-index.html
+        dest: /usr/share/nginx/html/index.html
+        mode: get
+        gs_access_key: "{{ storage_id }}"
+        gs_secret_key: "{{ storage_key }}"

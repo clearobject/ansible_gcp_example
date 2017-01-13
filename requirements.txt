@@ -1,0 +1,3 @@
+boto
+apache-libcloud
+ansible==2.2

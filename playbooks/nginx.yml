@@ -8,6 +8,14 @@
     - role: jdauphant.nginx
 
   tasks:
+    - name: Tag this server as an HTTP server
+      gce_tag:
+        instance_name: "{{ inventory_hostname }}"
+        tags: http-server
+        state: present
+      delegate_to: localhost
+      become: no
+
     - name: Allow http traffic
       gce_net:
         name: default
@@ -16,10 +24,12 @@
       delegate_to: localhost
       become: no
 
-    - name: Tag this server as an HTTP server
-      gce_tag:
-        instance_name: "{{ inventory_hostname }}"
-        tags: http-server
-        state: present
-      delegate_to: localhost
-      become: no
+    - name: Add our custom index page
+      copy:
+        src: ../files/index.html
+        dest: /usr/share/nginx/html/index.html
+
+    - name: Restart nginx
+      service:
+        name: nginx
+        state: restarted
