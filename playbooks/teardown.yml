@@ -54,3 +54,8 @@
         name: demo-disk
         state: absent
         zone: us-central1-a
+
+    - gce_lb:
+        name: demolb
+        region: us-central1
+        state: deleted

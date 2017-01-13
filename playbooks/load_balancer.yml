@@ -1,0 +1,18 @@
+---
+- name: Configure a load balancer for the systems
+  hosts: localhost
+  gather_facts: no
+  connection: local
+
+  vars:
+    members:
+      - gcpdemo0
+      - gcpdemo1
+
+  tasks:
+    - gce_lb:
+        name: demolb
+        region: us-central1
+        members: ["us-central1-a/gcpdemo0", "us-central1-a/gcpdemo1"]
+        httphealthcheck_name: hc
+        httphealthcheck_port: 80

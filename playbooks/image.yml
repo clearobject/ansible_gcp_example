@@ -15,7 +15,6 @@
         zone: us-central1-a
       delegate_to: localhost
 
-    # Make sure the server is shutdown before we try to create and image
     - name: Create an image from new disk
       gce_img:
         name: demo-image
