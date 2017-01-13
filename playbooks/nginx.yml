@@ -1,16 +1,25 @@
 ---
-- hosts: all
+- hosts: gcpdemo0
   become: yes
   become_method: sudo
 
   roles:
-    # https://galaxy.ansible.com/bennojoy/nginx/
+    # https://galaxy.ansible.com/jdauphant/nginx/
     - role: jdauphant.nginx
 
   tasks:
-    - gce_net:
+    - name: Allow http traffic
+      gce_net:
         name: default
         fwname: web
         allowed: tcp:80
+      delegate_to: localhost
+      become: no
+
+    - name: Tag this server as an HTTP server
+      gce_tag:
+        instance_name: "{{ inventory_hostname }}"
+        tags: http-server
+        state: present
       delegate_to: localhost
       become: no

@@ -21,3 +21,23 @@
         credentials_file: "{{ credentials_file }}"
         service_account_email: "{{ service_account_email }}"
       with_items: "{{ instances }}"
+
+    - name: Remove DNS record
+      gcdns_record:
+        record: "{{ item }}.ansiblemeetup.com"
+        zone: ansiblemeetup.com
+        state: absent
+        type: A
+        overwrite: true
+        project_id: "{{ project_id }}"
+        credentials_file: "{{ credentials_file }}"
+        service_account_email: "{{ service_account_email }}"
+      with_items: "{{ instances }}"
+
+    - name: Remove DNS zone
+      gcdns_zone:
+        zone: ansiblemeetup.com
+        state: absent
+        project_id: "{{ project_id }}"
+        credentials_file: "{{ credentials_file }}"
+        service_account_email: "{{ service_account_email }}"
