@@ -1,6 +1,11 @@
 Introduction
 ===
 
+This project provides a set of examples for managing GCE instances. These
+examples were built for the Indianapolis Ansible meetup. If you'd like to test
+these examples out on your own, you may want to change the various vars in the
+playbooks for your own needs.
+
 Inventory
 ===
 
@@ -19,6 +24,10 @@ gcloud tool in order to generate a key in $HOME/.ssh/google_compute_engine
 Executing a Playbook
 ===
 
+```
+ansible-playbook -i inventory/gce.py playbooks/<playbook_name>
+```
+
 Available Playbooks
 ===
 name | description
@@ -26,3 +35,7 @@ name | description
 provision | Creates two instances gcpdemo0 and gcpdemo1
 teardown | Deletes GCP demo instances
 nginx | Installs nginx on target servers and opens port 80
+dns | Adds a dns zone and dns entry for one of the instances
+image | Creates a persistent disk resource and a disk image
+load_balancer | Creates a load balancer that sets up health checks
+storage | Creates an object bucket, adds and object, and retrieves it
