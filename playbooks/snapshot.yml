@@ -11,7 +11,7 @@
     - gce_snapshot:
         instance_name: "{{ inventory_hostname }}"
         snapshot_name: "{{ inventory_hostname }}-demo"
-        state: absent
+        state: present
         project_id: "{{ project_id }}"
         credentials_file: "{{ credentials_file }}"
         service_account_email: "{{ service_account_email }}"
