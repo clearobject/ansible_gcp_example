@@ -15,6 +15,7 @@
         credentials_file: "{{ credentials_file }}"
         service_account_email: "{{ service_account_email }}"
       delegate_to: localhost
+      run_once: true
 
     - name: Create DNS record
       gcdns_record:
